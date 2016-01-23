@@ -76,83 +76,15 @@
 	  $stateProvider.state('home', {
 	    url: '/',
 	    views: {
-	      "": {
-	        templateProvider: function(tree) {
-	          var tpl = __webpack_require__(6);
-	          return tpl({
-	            tree: tree
-	          });
-	        },
-	        controller: function($scope, tree, $http, $rootScope) {
-	          $scope.res_list = tree;
-	          $scope.addName = 'term';
-	          $scope.isShow = $.cookie('isShow') === 'true' ? true : false;
-
-	          $rootScope.oldMap = {};
-
-	          function walk(list, map) {
-	            for (var i of list) {
-	              map[i.ID] = i;
-	              if (i.children) {
-	                walk(i.children, map)
-	              }
-	            }
-	          }
-	          walk(tree.children, $rootScope.oldMap);
-
-	          $scope.add = function(type) {
-	            $http.post('/index/add', {
-	              type: type,
-	              name: $scope.addName
-	            }).then(function(xhr) {
-	              location.reload();
-	            });
-	          }
-	          $scope.saveSort = function() {
-	            $http.post('/index/update_sort', $scope.res_list).then(function(xhr) {
-	              console.log(xhr.data);
-	              location.reload();
-	            })
-	          }
-	          $scope.updateKey = function(obj) {
-	            $http.post('/index/update_key', obj).then(function(xhr) {
-	              console.log(xhr.data);
-	            })
-	          }
-	          $scope.show = function() {
-	            $scope.isShow = !$scope.isShow;
-	            $.cookie('isShow', $scope.isShow);
-	          }
-	          $scope.toMenu = function() {
-	            $.post('/index/export_menu', function(rs) {
-	              console.log(rs);
-	            })
-	          }
-
-	          $('body').on('click', 'span.del', function(e) {
-	            var li = $(this).closest('li');
-	            var id = li.attr('id');
-	            $.post('/index/delete', id, function(rs) {
-	              li.remove();
-	            });
-	          }).on('input', 'ul input', function(e) {
-	            var li = $(this).closest('li');
-	            var id = li.attr('id');
-	            var key = $(this).attr('class');
-	            var val = $(this).val();
-	            var data = {
-	              id: id,
-	              data: {}
-	            }
-	            data.data[key] = val
-	            $scope.updateKey(data);
-	          });
-
+	      "menu": {
+	        template: __webpack_require__(11),
+	        controller: function($scope, $http, menu) {
+	          $scope.list = menu;
 	        }
 	      }
 	    },
 	    resolve: {
-	      tree: function($http) {
+	      menu: function($http) {
 	        return $http.get('/index/list')
 	          .then(function(xhr) {
 	            return xhr.data;
@@ -199,10 +131,10 @@
 
 	exports = module.exports = __webpack_require__(3)();
 	// imports
-	exports.i(__webpack_require__(4), "");
+
 
 	// module
-	exports.push([module.id, "html {\n  font-size: 10px;\n}\nbody {\n  font-size: 1.2rem;\n}\n", ""]);
+	exports.push([module.id, "/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */\n/**\n * 1. Set default font family to sans-serif.\n * 2. Prevent iOS and IE text size adjust after device orientation change,\n *    without disabling user zoom.\n */\nhtml {\n  font-family: sans-serif;\n  /* 1 */\n  -ms-text-size-adjust: 100%;\n  /* 2 */\n  -webkit-text-size-adjust: 100%;\n  /* 2 */\n}\n/**\n * Remove default margin.\n */\nbody {\n  margin: 0;\n}\n/* HTML5 display definitions\n   ========================================================================== */\n/**\n * Correct `block` display not defined for any HTML5 element in IE 8/9.\n * Correct `block` display not defined for `details` or `summary` in IE 10/11\n * and Firefox.\n * Correct `block` display not defined for `main` in IE 11.\n */\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmain,\nmenu,\nnav,\nsection,\nsummary {\n  display: block;\n}\n/**\n * 1. Correct `inline-block` display not defined in IE 8/9.\n * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.\n */\naudio,\ncanvas,\nprogress,\nvideo {\n  display: inline-block;\n  /* 1 */\n  vertical-align: baseline;\n  /* 2 */\n}\n/**\n * Prevent modern browsers from displaying `audio` without controls.\n * Remove excess height in iOS 5 devices.\n */\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n/**\n * Address `[hidden]` styling not present in IE 8/9/10.\n * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.\n */\n[hidden],\ntemplate {\n  display: none;\n}\n/* Links\n   ========================================================================== */\n/**\n * Remove the gray background color from active links in IE 10.\n */\na {\n  background-color: transparent;\n}\n/**\n * Improve readability of focused elements when they are also in an\n * active/hover state.\n */\na:active,\na:hover {\n  outline: 0;\n}\n/* Text-level semantics\n   ========================================================================== */\n/**\n * Address styling not present in IE 8/9/10/11, Safari, and Chrome.\n */\nabbr[title] {\n  border-bottom: 1px dotted;\n}\n/**\n * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.\n */\nb,\nstrong {\n  font-weight: bold;\n}\n/**\n * Address styling not present in Safari and Chrome.\n */\ndfn {\n  font-style: italic;\n}\n/**\n * Address variable `h1` font-size and margin within `section` and `article`\n * contexts in Firefox 4+, Safari, and Chrome.\n */\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n/**\n * Address styling not present in IE 8/9.\n */\nmark {\n  background: #ff0;\n  color: #000;\n}\n/**\n * Address inconsistent and variable font size in all browsers.\n */\nsmall {\n  font-size: 80%;\n}\n/**\n * Prevent `sub` and `sup` affecting `line-height` in all browsers.\n */\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\nsup {\n  top: -0.5em;\n}\nsub {\n  bottom: -0.25em;\n}\n/* Embedded content\n   ========================================================================== */\n/**\n * Remove border when inside `a` element in IE 8/9/10.\n */\nimg {\n  border: 0;\n}\n/**\n * Correct overflow not hidden in IE 9/10/11.\n */\nsvg:not(:root) {\n  overflow: hidden;\n}\n/* Grouping content\n   ========================================================================== */\n/**\n * Address margin not present in IE 8/9 and Safari.\n */\nfigure {\n  margin: 1em 40px;\n}\n/**\n * Address differences between Firefox and other browsers.\n */\nhr {\n  box-sizing: content-box;\n  height: 0;\n}\n/**\n * Contain overflow in all browsers.\n */\npre {\n  overflow: auto;\n}\n/**\n * Address odd `em`-unit font size rendering in all browsers.\n */\ncode,\nkbd,\npre,\nsamp {\n  font-family: monospace, monospace;\n  font-size: 1em;\n}\n/* Forms\n   ========================================================================== */\n/**\n * Known limitation: by default, Chrome and Safari on OS X allow very limited\n * styling of `select`, unless a `border` property is set.\n */\n/**\n * 1. Correct color not being inherited.\n *    Known issue: affects color of disabled elements.\n * 2. Correct font properties not being inherited.\n * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.\n */\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  color: inherit;\n  /* 1 */\n  font: inherit;\n  /* 2 */\n  margin: 0;\n  /* 3 */\n}\n/**\n * Address `overflow` set to `hidden` in IE 8/9/10/11.\n */\nbutton {\n  overflow: visible;\n}\n/**\n * Address inconsistent `text-transform` inheritance for `button` and `select`.\n * All other form control elements do not inherit `text-transform` values.\n * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.\n * Correct `select` style inheritance in Firefox.\n */\nbutton,\nselect {\n  text-transform: none;\n}\n/**\n * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`\n *    and `video` controls.\n * 2. Correct inability to style clickable `input` types in iOS.\n * 3. Improve usability and consistency of cursor style between image-type\n *    `input` and others.\n */\nbutton,\nhtml input[type=\"button\"],\ninput[type=\"reset\"],\ninput[type=\"submit\"] {\n  -webkit-appearance: button;\n  /* 2 */\n  cursor: pointer;\n  /* 3 */\n}\n/**\n * Re-set default cursor for disabled elements.\n */\nbutton[disabled],\nhtml input[disabled] {\n  cursor: default;\n}\n/**\n * Remove inner padding and border in Firefox 4+.\n */\nbutton::-moz-focus-inner,\ninput::-moz-focus-inner {\n  border: 0;\n  padding: 0;\n}\n/**\n * Address Firefox 4+ setting `line-height` on `input` using `!important` in\n * the UA stylesheet.\n */\ninput {\n  line-height: normal;\n}\n/**\n * It's recommended that you don't attempt to style these elements.\n * Firefox's implementation doesn't respect box-sizing, padding, or width.\n *\n * 1. Address box sizing set to `content-box` in IE 8/9/10.\n * 2. Remove excess padding in IE 8/9/10.\n */\ninput[type=\"checkbox\"],\ninput[type=\"radio\"] {\n  box-sizing: border-box;\n  /* 1 */\n  padding: 0;\n  /* 2 */\n}\n/**\n * Fix the cursor style for Chrome's increment/decrement buttons. For certain\n * `font-size` values of the `input`, it causes the cursor style of the\n * decrement button to change from `default` to `text`.\n */\ninput[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n/**\n * 1. Address `appearance` set to `searchfield` in Safari and Chrome.\n * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.\n */\ninput[type=\"search\"] {\n  -webkit-appearance: textfield;\n  /* 1 */\n  box-sizing: content-box;\n  /* 2 */\n}\n/**\n * Remove inner padding and search cancel button in Safari and Chrome on OS X.\n * Safari (but not Chrome) clips the cancel button when the search input has\n * padding (and `textfield` appearance).\n */\ninput[type=\"search\"]::-webkit-search-cancel-button,\ninput[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n/**\n * Define consistent border, margin, and padding.\n */\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em;\n}\n/**\n * 1. Correct `color` not being inherited in IE 8/9/10/11.\n * 2. Remove padding so people aren't caught out if they zero out fieldsets.\n */\nlegend {\n  border: 0;\n  /* 1 */\n  padding: 0;\n  /* 2 */\n}\n/**\n * Remove default vertical scrollbar in IE 8/9/10/11.\n */\ntextarea {\n  overflow: auto;\n}\n/**\n * Don't inherit the `font-weight` (applied by a rule above).\n * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.\n */\noptgroup {\n  font-weight: bold;\n}\n/* Tables\n   ========================================================================== */\n/**\n * Remove most spacing between table cells.\n */\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\ntd,\nth {\n  padding: 0;\n}\nhtml {\n  font-size: 10px;\n}\nbody {\n  font-size: 1.2rem;\n}\n.col1 {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  width: 20%;\n}\n.col2 {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 20%;\n  width: 30%;\n}\n.col3 {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 50%;\n  width: 50%;\n}\n", ""]);
 
 	// exports
 
@@ -264,20 +196,7 @@
 
 
 /***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */\n\n/**\n * 1. Set default font family to sans-serif.\n * 2. Prevent iOS and IE text size adjust after device orientation change,\n *    without disabling user zoom.\n */\n\nhtml {\n  font-family: sans-serif; /* 1 */\n  -ms-text-size-adjust: 100%; /* 2 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/**\n * Remove default margin.\n */\n\nbody {\n  margin: 0;\n}\n\n/* HTML5 display definitions\n   ========================================================================== */\n\n/**\n * Correct `block` display not defined for any HTML5 element in IE 8/9.\n * Correct `block` display not defined for `details` or `summary` in IE 10/11\n * and Firefox.\n * Correct `block` display not defined for `main` in IE 11.\n */\n\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmain,\nmenu,\nnav,\nsection,\nsummary {\n  display: block;\n}\n\n/**\n * 1. Correct `inline-block` display not defined in IE 8/9.\n * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.\n */\n\naudio,\ncanvas,\nprogress,\nvideo {\n  display: inline-block; /* 1 */\n  vertical-align: baseline; /* 2 */\n}\n\n/**\n * Prevent modern browsers from displaying `audio` without controls.\n * Remove excess height in iOS 5 devices.\n */\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n/**\n * Address `[hidden]` styling not present in IE 8/9/10.\n * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.\n */\n\n[hidden],\ntemplate {\n  display: none;\n}\n\n/* Links\n   ========================================================================== */\n\n/**\n * Remove the gray background color from active links in IE 10.\n */\n\na {\n  background-color: transparent;\n}\n\n/**\n * Improve readability of focused elements when they are also in an\n * active/hover state.\n */\n\na:active,\na:hover {\n  outline: 0;\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * Address styling not present in IE 8/9/10/11, Safari, and Chrome.\n */\n\nabbr[title] {\n  border-bottom: 1px dotted;\n}\n\n/**\n * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.\n */\n\nb,\nstrong {\n  font-weight: bold;\n}\n\n/**\n * Address styling not present in Safari and Chrome.\n */\n\ndfn {\n  font-style: italic;\n}\n\n/**\n * Address variable `h1` font-size and margin within `section` and `article`\n * contexts in Firefox 4+, Safari, and Chrome.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/**\n * Address styling not present in IE 8/9.\n */\n\nmark {\n  background: #ff0;\n  color: #000;\n}\n\n/**\n * Address inconsistent and variable font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` affecting `line-height` in all browsers.\n */\n\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsup {\n  top: -0.5em;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Remove border when inside `a` element in IE 8/9/10.\n */\n\nimg {\n  border: 0;\n}\n\n/**\n * Correct overflow not hidden in IE 9/10/11.\n */\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * Address margin not present in IE 8/9 and Safari.\n */\n\nfigure {\n  margin: 1em 40px;\n}\n\n/**\n * Address differences between Firefox and other browsers.\n */\n\nhr {\n  box-sizing: content-box;\n  height: 0;\n}\n\n/**\n * Contain overflow in all browsers.\n */\n\npre {\n  overflow: auto;\n}\n\n/**\n * Address odd `em`-unit font size rendering in all browsers.\n */\n\ncode,\nkbd,\npre,\nsamp {\n  font-family: monospace, monospace;\n  font-size: 1em;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * Known limitation: by default, Chrome and Safari on OS X allow very limited\n * styling of `select`, unless a `border` property is set.\n */\n\n/**\n * 1. Correct color not being inherited.\n *    Known issue: affects color of disabled elements.\n * 2. Correct font properties not being inherited.\n * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.\n */\n\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  color: inherit; /* 1 */\n  font: inherit; /* 2 */\n  margin: 0; /* 3 */\n}\n\n/**\n * Address `overflow` set to `hidden` in IE 8/9/10/11.\n */\n\nbutton {\n  overflow: visible;\n}\n\n/**\n * Address inconsistent `text-transform` inheritance for `button` and `select`.\n * All other form control elements do not inherit `text-transform` values.\n * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.\n * Correct `select` style inheritance in Firefox.\n */\n\nbutton,\nselect {\n  text-transform: none;\n}\n\n/**\n * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`\n *    and `video` controls.\n * 2. Correct inability to style clickable `input` types in iOS.\n * 3. Improve usability and consistency of cursor style between image-type\n *    `input` and others.\n */\n\nbutton,\nhtml input[type=\"button\"], /* 1 */\ninput[type=\"reset\"],\ninput[type=\"submit\"] {\n  -webkit-appearance: button; /* 2 */\n  cursor: pointer; /* 3 */\n}\n\n/**\n * Re-set default cursor for disabled elements.\n */\n\nbutton[disabled],\nhtml input[disabled] {\n  cursor: default;\n}\n\n/**\n * Remove inner padding and border in Firefox 4+.\n */\n\nbutton::-moz-focus-inner,\ninput::-moz-focus-inner {\n  border: 0;\n  padding: 0;\n}\n\n/**\n * Address Firefox 4+ setting `line-height` on `input` using `!important` in\n * the UA stylesheet.\n */\n\ninput {\n  line-height: normal;\n}\n\n/**\n * It's recommended that you don't attempt to style these elements.\n * Firefox's implementation doesn't respect box-sizing, padding, or width.\n *\n * 1. Address box sizing set to `content-box` in IE 8/9/10.\n * 2. Remove excess padding in IE 8/9/10.\n */\n\ninput[type=\"checkbox\"],\ninput[type=\"radio\"] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Fix the cursor style for Chrome's increment/decrement buttons. For certain\n * `font-size` values of the `input`, it causes the cursor style of the\n * decrement button to change from `default` to `text`.\n */\n\ninput[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Address `appearance` set to `searchfield` in Safari and Chrome.\n * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.\n */\n\ninput[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  box-sizing: content-box; /* 2 */\n}\n\n/**\n * Remove inner padding and search cancel button in Safari and Chrome on OS X.\n * Safari (but not Chrome) clips the cancel button when the search input has\n * padding (and `textfield` appearance).\n */\n\ninput[type=\"search\"]::-webkit-search-cancel-button,\ninput[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * Define consistent border, margin, and padding.\n */\n\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em;\n}\n\n/**\n * 1. Correct `color` not being inherited in IE 8/9/10/11.\n * 2. Remove padding so people aren't caught out if they zero out fieldsets.\n */\n\nlegend {\n  border: 0; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Remove default vertical scrollbar in IE 8/9/10/11.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * Don't inherit the `font-weight` (applied by a rule above).\n * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.\n */\n\noptgroup {\n  font-weight: bold;\n}\n\n/* Tables\n   ========================================================================== */\n\n/**\n * Remove most spacing between table cells.\n */\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\ntd,\nth {\n  padding: 0;\n}\n", ""]);
-
-	// exports
-
-
-/***/ },
+/* 4 */,
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -503,314 +422,15 @@
 
 
 /***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var jade = __webpack_require__(7);
-
-	module.exports = function template(locals) {
-	var buf = [];
-	var jade_mixins = {};
-	var jade_interp;
-	;var locals_for_with = (locals || {});(function (tree) {
-	jade_mixins["tree"] = jade_interp = function(obj){
-	var block = (this && this.block), attributes = (this && this.attributes) || {};
-	buf.push("<ul" + (jade.attr("ng-show", "isShow || " + (obj.hasLeaf) + "", true, true)) + ">");
-	// iterate obj.children
-	;(function(){
-	  var $$obj = obj.children;
-	  if ('number' == typeof $$obj.length) {
-
-	    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
-	      var v = $$obj[$index];
-
-	buf.push("<li" + (jade.attr("id", "" + (v.ID) + "", true, true)) + (jade.cls([{has: v.hasChildren}], [true])) + "><div class=\"item\"><span class=\"move\">" + (jade.escape((jade_interp = v.SORT) == null ? '' : jade_interp)) + "</span><input" + (jade.attr("value", "" + (v.RESOURCE_NAME || '') + "", true, true)) + " class=\"RESOURCE_NAME\"><input" + (jade.attr("value", "" + (v.PERMISSION || '') + "", true, true)) + " class=\"PERMISSION\"><input" + (jade.attr("value", "" + (v.URL || '') + "", true, true)) + " class=\"URL\"><span class=\"del\">x</span><a" + (jade.attr("href", "#/sub/" + (v.ID) + "", true, true)) + " class=\"to\">修改json</a></div>");
-	if ( v.children)
-	{
-	jade_mixins["tree"](v);
-	}
-	buf.push("</li>");
-	    }
-
-	  } else {
-	    var $$l = 0;
-	    for (var $index in $$obj) {
-	      $$l++;      var v = $$obj[$index];
-
-	buf.push("<li" + (jade.attr("id", "" + (v.ID) + "", true, true)) + (jade.cls([{has: v.hasChildren}], [true])) + "><div class=\"item\"><span class=\"move\">" + (jade.escape((jade_interp = v.SORT) == null ? '' : jade_interp)) + "</span><input" + (jade.attr("value", "" + (v.RESOURCE_NAME || '') + "", true, true)) + " class=\"RESOURCE_NAME\"><input" + (jade.attr("value", "" + (v.PERMISSION || '') + "", true, true)) + " class=\"PERMISSION\"><input" + (jade.attr("value", "" + (v.URL || '') + "", true, true)) + " class=\"URL\"><span class=\"del\">x</span><a" + (jade.attr("href", "#/sub/" + (v.ID) + "", true, true)) + " class=\"to\">修改json</a></div>");
-	if ( v.children)
-	{
-	jade_mixins["tree"](v);
-	}
-	buf.push("</li>");
-	    }
-
-	  }
-	}).call(this);
-
-	buf.push("</ul>");
-	};
-	jade_mixins["tree"](tree);
-	buf.push("<div class=\"btns\"><a ng-click=\"toMenu()\" class=\"add\">to-menu</a><a ng-click=\"show()\" ng-if=\"isShow\" class=\"add\">隐藏节点</a><a ng-click=\"show()\" ng-if=\"!isShow\" class=\"add\">显示节点</a><input type=\"text\" ng-model=\"addName\" placeholder=\"目录名称\" class=\"addName\"><a ng-click=\"add('folder')\" class=\"add\">添加目录</a></div>");}.call(this,"tree" in locals_for_with?locals_for_with.tree:typeof tree!=="undefined"?tree:undefined));;return buf.join("");
-	}
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	/**
-	 * Merge two attribute objects giving precedence
-	 * to values in object `b`. Classes are special-cased
-	 * allowing for arrays and merging/joining appropriately
-	 * resulting in a string.
-	 *
-	 * @param {Object} a
-	 * @param {Object} b
-	 * @return {Object} a
-	 * @api private
-	 */
-
-	exports.merge = function merge(a, b) {
-	  if (arguments.length === 1) {
-	    var attrs = a[0];
-	    for (var i = 1; i < a.length; i++) {
-	      attrs = merge(attrs, a[i]);
-	    }
-	    return attrs;
-	  }
-	  var ac = a['class'];
-	  var bc = b['class'];
-
-	  if (ac || bc) {
-	    ac = ac || [];
-	    bc = bc || [];
-	    if (!Array.isArray(ac)) ac = [ac];
-	    if (!Array.isArray(bc)) bc = [bc];
-	    a['class'] = ac.concat(bc).filter(nulls);
-	  }
-
-	  for (var key in b) {
-	    if (key != 'class') {
-	      a[key] = b[key];
-	    }
-	  }
-
-	  return a;
-	};
-
-	/**
-	 * Filter null `val`s.
-	 *
-	 * @param {*} val
-	 * @return {Boolean}
-	 * @api private
-	 */
-
-	function nulls(val) {
-	  return val != null && val !== '';
-	}
-
-	/**
-	 * join array as classes.
-	 *
-	 * @param {*} val
-	 * @return {String}
-	 */
-	exports.joinClasses = joinClasses;
-	function joinClasses(val) {
-	  return (Array.isArray(val) ? val.map(joinClasses) :
-	    (val && typeof val === 'object') ? Object.keys(val).filter(function (key) { return val[key]; }) :
-	    [val]).filter(nulls).join(' ');
-	}
-
-	/**
-	 * Render the given classes.
-	 *
-	 * @param {Array} classes
-	 * @param {Array.<Boolean>} escaped
-	 * @return {String}
-	 */
-	exports.cls = function cls(classes, escaped) {
-	  var buf = [];
-	  for (var i = 0; i < classes.length; i++) {
-	    if (escaped && escaped[i]) {
-	      buf.push(exports.escape(joinClasses([classes[i]])));
-	    } else {
-	      buf.push(joinClasses(classes[i]));
-	    }
-	  }
-	  var text = joinClasses(buf);
-	  if (text.length) {
-	    return ' class="' + text + '"';
-	  } else {
-	    return '';
-	  }
-	};
-
-
-	exports.style = function (val) {
-	  if (val && typeof val === 'object') {
-	    return Object.keys(val).map(function (style) {
-	      return style + ':' + val[style];
-	    }).join(';');
-	  } else {
-	    return val;
-	  }
-	};
-	/**
-	 * Render the given attribute.
-	 *
-	 * @param {String} key
-	 * @param {String} val
-	 * @param {Boolean} escaped
-	 * @param {Boolean} terse
-	 * @return {String}
-	 */
-	exports.attr = function attr(key, val, escaped, terse) {
-	  if (key === 'style') {
-	    val = exports.style(val);
-	  }
-	  if ('boolean' == typeof val || null == val) {
-	    if (val) {
-	      return ' ' + (terse ? key : key + '="' + key + '"');
-	    } else {
-	      return '';
-	    }
-	  } else if (0 == key.indexOf('data') && 'string' != typeof val) {
-	    if (JSON.stringify(val).indexOf('&') !== -1) {
-	      console.warn('Since Jade 2.0.0, ampersands (`&`) in data attributes ' +
-	                   'will be escaped to `&amp;`');
-	    };
-	    if (val && typeof val.toISOString === 'function') {
-	      console.warn('Jade will eliminate the double quotes around dates in ' +
-	                   'ISO form after 2.0.0');
-	    }
-	    return ' ' + key + "='" + JSON.stringify(val).replace(/'/g, '&apos;') + "'";
-	  } else if (escaped) {
-	    if (val && typeof val.toISOString === 'function') {
-	      console.warn('Jade will stringify dates in ISO form after 2.0.0');
-	    }
-	    return ' ' + key + '="' + exports.escape(val) + '"';
-	  } else {
-	    if (val && typeof val.toISOString === 'function') {
-	      console.warn('Jade will stringify dates in ISO form after 2.0.0');
-	    }
-	    return ' ' + key + '="' + val + '"';
-	  }
-	};
-
-	/**
-	 * Render the given attributes object.
-	 *
-	 * @param {Object} obj
-	 * @param {Object} escaped
-	 * @return {String}
-	 */
-	exports.attrs = function attrs(obj, terse){
-	  var buf = [];
-
-	  var keys = Object.keys(obj);
-
-	  if (keys.length) {
-	    for (var i = 0; i < keys.length; ++i) {
-	      var key = keys[i]
-	        , val = obj[key];
-
-	      if ('class' == key) {
-	        if (val = joinClasses(val)) {
-	          buf.push(' ' + key + '="' + val + '"');
-	        }
-	      } else {
-	        buf.push(exports.attr(key, val, false, terse));
-	      }
-	    }
-	  }
-
-	  return buf.join('');
-	};
-
-	/**
-	 * Escape the given string of `html`.
-	 *
-	 * @param {String} html
-	 * @return {String}
-	 * @api private
-	 */
-
-	var jade_encode_html_rules = {
-	  '&': '&amp;',
-	  '<': '&lt;',
-	  '>': '&gt;',
-	  '"': '&quot;'
-	};
-	var jade_match_html = /[&<>"]/g;
-
-	function jade_encode_char(c) {
-	  return jade_encode_html_rules[c] || c;
-	}
-
-	exports.escape = jade_escape;
-	function jade_escape(html){
-	  var result = String(html).replace(jade_match_html, jade_encode_char);
-	  if (result === '' + html) return html;
-	  else return result;
-	};
-
-	/**
-	 * Re-throw the given `err` in context to the
-	 * the jade in `filename` at the given `lineno`.
-	 *
-	 * @param {Error} err
-	 * @param {String} filename
-	 * @param {String} lineno
-	 * @api private
-	 */
-
-	exports.rethrow = function rethrow(err, filename, lineno, str){
-	  if (!(err instanceof Error)) throw err;
-	  if ((typeof window != 'undefined' || !filename) && !str) {
-	    err.message += ' on line ' + lineno;
-	    throw err;
-	  }
-	  try {
-	    str = str || __webpack_require__(8).readFileSync(filename, 'utf8')
-	  } catch (ex) {
-	    rethrow(err, null, lineno)
-	  }
-	  var context = 3
-	    , lines = str.split('\n')
-	    , start = Math.max(lineno - context, 0)
-	    , end = Math.min(lines.length, lineno + context);
-
-	  // Error context
-	  var context = lines.slice(start, end).map(function(line, i){
-	    var curr = i + start + 1;
-	    return (curr == lineno ? '  > ' : '    ')
-	      + curr
-	      + '| '
-	      + line;
-	  }).join('\n');
-
-	  // Alter exception message
-	  err.path = filename;
-	  err.message = (filename || 'Jade') + ':' + lineno
-	    + '\n' + context + '\n\n' + err.message;
-	  throw err;
-	};
-
-	exports.DebugItem = function DebugItem(lineno, filename) {
-	  this.lineno = lineno;
-	  this.filename = filename;
-	}
-
-
-/***/ },
-/* 8 */
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */
 /***/ function(module, exports) {
 
-	/* (ignored) */
+	module.exports = "<script type=\"text/ng-template\" id=\"menu-tree\"><li ng-repeat=\"v in list\"><p><span ng-click=\"update(v, list)\" class=\"name\">{{v.organizationName}}<span class=\"count\">({{v.accountSize}})</span></span><span ng-if=\"!isAdd\"><span ng-click=\"addChild(v, $index, list)\" uib-tooltip=\"添加子节点\" tooltip-append-to-body=\"true\" class=\"glyphicon glyphicon-plus\"></span><span ng-click=\"delete(v, $index, list)\" uib-tooltip=\"删除\" tooltip-append-to-body=\"true\" class=\"glyphicon glyphicon-remove\"></span><span class=\"glyphicon glyphicon-move\"></span></span></p><ul ng-if=\"v.children\" ng-init=\"lv=lv+1; list=v.children\" ng-include=\"'menu-tree'\" ng-sortable=\"sortConfig\"></ul></li></script><ul ng-include=\"'menu-tree'\" ng-sortable=\"sortConfig\"></ul>"
 
 /***/ }
 /******/ ]);

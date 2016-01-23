@@ -30,83 +30,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider.state('home', {
     url: '/',
     views: {
-      "": {
-        templateProvider: function(tree) {
-          var tpl = require('jade-loader!./tree.jade');
-          return tpl({
-            tree: tree
-          });
-        },
-        controller: function($scope, tree, $http, $rootScope) {
-          $scope.res_list = tree;
-          $scope.addName = 'term';
-          $scope.isShow = $.cookie('isShow') === 'true' ? true : false;
-
-          $rootScope.oldMap = {};
-
-          function walk(list, map) {
-            for (var i of list) {
-              map[i.ID] = i;
-              if (i.children) {
-                walk(i.children, map)
-              }
-            }
-          }
-          walk(tree.children, $rootScope.oldMap);
-
-          $scope.add = function(type) {
-            $http.post('/index/add', {
-              type: type,
-              name: $scope.addName
-            }).then(function(xhr) {
-              location.reload();
-            });
-          }
-          $scope.saveSort = function() {
-            $http.post('/index/update_sort', $scope.res_list).then(function(xhr) {
-              console.log(xhr.data);
-              location.reload();
-            })
-          }
-          $scope.updateKey = function(obj) {
-            $http.post('/index/update_key', obj).then(function(xhr) {
-              console.log(xhr.data);
-            })
-          }
-          $scope.show = function() {
-            $scope.isShow = !$scope.isShow;
-            $.cookie('isShow', $scope.isShow);
-          }
-          $scope.toMenu = function() {
-            $.post('/index/export_menu', function(rs) {
-              console.log(rs);
-            })
-          }
-
-          $('body').on('click', 'span.del', function(e) {
-            var li = $(this).closest('li');
-            var id = li.attr('id');
-            $.post('/index/delete', id, function(rs) {
-              li.remove();
-            });
-          }).on('input', 'ul input', function(e) {
-            var li = $(this).closest('li');
-            var id = li.attr('id');
-            var key = $(this).attr('class');
-            var val = $(this).val();
-            var data = {
-              id: id,
-              data: {}
-            }
-            data.data[key] = val
-            $scope.updateKey(data);
-          });
-
+      "menu": {
+        template: require('raw!jade-html!./tree.jade'),
+        controller: function($scope, $http, menu) {
+          $scope.list = menu;
         }
       }
     },
     resolve: {
-      tree: function($http) {
+      menu: function($http) {
         return $http.get('/index/list')
           .then(function(xhr) {
             return xhr.data;
