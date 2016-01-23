@@ -1,0 +1,22 @@
+mixin tree(obj)
+  ul(ng-show="isShow || #{obj.hasLeaf}")
+    each v in obj.children
+      li(class={has: v.hasChildren}, id="#{v.ID}")
+        .item
+          span.move #{v.SORT}
+          input.RESOURCE_NAME(value="#{v.RESOURCE_NAME || ''}")
+          input.PERMISSION(value="#{v.PERMISSION || ''}")
+          input.URL(value="#{v.URL || ''}")
+          span.del x
+          a.to(href="#/sub/#{v.ID}") 修改json
+        if v.children
+          +tree(v)
+
++tree(tree)
+
+.btns
+  a.add(ng-click="toMenu()") to-menu
+  a.add(ng-click="show()", ng-if="isShow") 隐藏节点
+  a.add(ng-click="show()", ng-if="!isShow") 显示节点
+  input.addName(type="text", ng-model="addName", placeholder="目录名称")
+  a.add(ng-click="add('folder')") 添加目录
