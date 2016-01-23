@@ -81,6 +81,24 @@
 	        controller: function($scope, $http, menu) {
 	          $scope.list = menu;
 	        }
+	      },
+	      "url": {
+	        template: __webpack_require__(12),
+	        controller: function($scope, $http) {
+	          $http.get('/index/url')
+	            .then(function(xhr) {
+	              $scope.list = xhr.data;
+	            });
+	        }
+	      },
+	      "detail": {
+	        template: __webpack_require__(13),
+	        controller: function($scope, $http) {
+	          $http.get('/index/detail')
+	            .then(function(xhr) {
+	              $scope.item = xhr.data;
+	            });
+	        }
 	      }
 	    },
 	    resolve: {
@@ -431,6 +449,18 @@
 /***/ function(module, exports) {
 
 	module.exports = "<script type=\"text/ng-template\" id=\"menu-tree\"><li ng-repeat=\"v in list\"><p><span ng-click=\"update(v, list)\" class=\"name\">{{v.organizationName}}<span class=\"count\">({{v.accountSize}})</span></span><span ng-if=\"!isAdd\"><span ng-click=\"addChild(v, $index, list)\" uib-tooltip=\"添加子节点\" tooltip-append-to-body=\"true\" class=\"glyphicon glyphicon-plus\"></span><span ng-click=\"delete(v, $index, list)\" uib-tooltip=\"删除\" tooltip-append-to-body=\"true\" class=\"glyphicon glyphicon-remove\"></span><span class=\"glyphicon glyphicon-move\"></span></span></p><ul ng-if=\"v.children\" ng-init=\"lv=lv+1; list=v.children\" ng-include=\"'menu-tree'\" ng-sortable=\"sortConfig\"></ul></li></script><ul ng-include=\"'menu-tree'\" ng-sortable=\"sortConfig\"></ul>"
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = "<p ng-repeat=\"v in list\"><span>{{v.name}}</span><span>{{v.url}}</span></p>"
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	module.exports = "<p>{{item.name}}</p><p>{{item.url}}</p><p>{{item.type}}</p>"
 
 /***/ }
 /******/ ]);

@@ -35,6 +35,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
         controller: function($scope, $http, menu) {
           $scope.list = menu;
         }
+      },
+      "url": {
+        template: require('raw!jade-html!./url.jade'),
+        controller: function($scope, $http) {
+          $http.get('/index/url')
+            .then(function(xhr) {
+              $scope.list = xhr.data;
+            });
+        }
+      },
+      "detail": {
+        template: require('raw!jade-html!./detail.jade'),
+        controller: function($scope, $http) {
+          $http.get('/index/detail')
+            .then(function(xhr) {
+              $scope.item = xhr.data;
+            });
+        }
       }
     },
     resolve: {

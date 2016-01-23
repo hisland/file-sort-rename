@@ -102,6 +102,15 @@ export default class extends Base {
     }]);
   }
   async urlAction() {
-    return this.display();
+    return this.json([{
+      url: 'abc/def/kk'
+    }]);
+  }
+  async detailAction() {
+    return this.json({
+      url: 'abc/def/kk',
+      name: 'abc',
+      type: 'post'
+    });
   }
 }
