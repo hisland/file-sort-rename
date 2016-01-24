@@ -14,6 +14,9 @@ script(type="text/ng-template" id="menu-tree")
         span.glyphicon.glyphicon-move
     ul(ng-if="v.children" ng-init="lv=lv+1; list=v.children" ng-include="'menu-tree'" ng-sortable="sortConfig")
 
+h3.head 菜单树
 
 ul(ng-include="'menu-tree'" ng-sortable="sortConfig")
 
+p
+  span 添加根节点
