@@ -44,87 +44,23 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
+	__webpack_require__(2);
 
 
-	// 添加各种模块依赖
-	var app = angular.module('app', [
-	  'ui.router',
-	]);
-
-
-	app.directive('autoHeight', function($timeout, $parse) {
-	  return {
-	    //scope: true,   // optionally create a child scope
-	    link: function(scope, element, attrs) {
-	      element.on('input', function(e) {
-	        $(this).height(this.scrollHeight);
-	      });
-	      $timeout(function() {
-	        element.trigger('input')
-	      }, 50);
-	    }
-	  };
+	$(function() {
+	  alert(3);
 	});
 
 
-	app.config(function($stateProvider, $urlRouterProvider) {
-	  $urlRouterProvider.otherwise(function($injector, $location) { // 参数固定, 不是injector
-	    return '/';
-	  });
-
-	  $stateProvider.state('home', {
-	    url: '/',
-	    views: {
-	      "menu": {
-	        template: __webpack_require__(11),
-	        controller: function($scope, $http, menu) {
-	          $scope.list = menu;
-	        }
-	      },
-	      "url": {
-	        template: __webpack_require__(12),
-	        controller: function($scope, $http) {
-	          $http.get('/index/url')
-	            .then(function(xhr) {
-	              $scope.list = xhr.data;
-	            });
-	        }
-	      },
-	      "detail": {
-	        template: __webpack_require__(13),
-	        controller: function($scope, $http) {
-	          $http.get('/index/detail')
-	            .then(function(xhr) {
-	              $scope.item = xhr.data;
-	            });
-	        }
-	      }
-	    },
-	    resolve: {
-	      menu: function($http) {
-	        return $http.get('/index/list')
-	          .then(function(xhr) {
-	            return xhr.data;
-	          });
-	      }
-	    }
-	  });
-
-	})
-
-	// init angular
-	angular.bootstrap(document.body, ['app']);
-
-
 /***/ },
-/* 1 */
+/* 1 */,
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(2);
+	var content = __webpack_require__(3);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(5)(content, {});
@@ -144,10 +80,10 @@
 	}
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(3)();
+	exports = module.exports = __webpack_require__(4)();
 	// imports
 
 
@@ -158,7 +94,7 @@
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	/*
@@ -214,7 +150,6 @@
 
 
 /***/ },
-/* 4 */,
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -438,29 +373,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
-/***/ function(module, exports) {
-
-	module.exports = "<script type=\"text/ng-template\" id=\"menu-tree\"><li ng-repeat=\"v in list\"><p><span ng-click=\"update(v, list)\" class=\"name\">{{v.organizationName}}<span class=\"count\">({{v.accountSize}})</span></span><span ng-if=\"!isAdd\"><span ng-click=\"addChild(v, $index, list)\" uib-tooltip=\"添加子节点\" tooltip-append-to-body=\"true\" class=\"glyphicon glyphicon-plus\"></span><span ng-click=\"delete(v, $index, list)\" uib-tooltip=\"删除\" tooltip-append-to-body=\"true\" class=\"glyphicon glyphicon-remove\"></span><span class=\"glyphicon glyphicon-move\"></span></span></p><ul ng-if=\"v.children\" ng-init=\"lv=lv+1; list=v.children\" ng-include=\"'menu-tree'\" ng-sortable=\"sortConfig\"></ul></li></script><h3 class=\"head\">菜单树</h3><ul ng-include=\"'menu-tree'\" ng-sortable=\"sortConfig\"></ul><p><span>添加根节点</span></p>"
-
-/***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-	module.exports = "<h3 class=\"head\">菜单节点</h3><p><input type=\"text\" placeholder=\"负责人\"></p><p><input type=\"text\" placeholder=\"链接\"></p><h3 class=\"head\">菜单功能</h3><p>/a/b/c</p>"
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-	module.exports = "<h3 class=\"head\">功能详情</h3><p><input type=\"text\" placeholder=\"添加\"></p><p><input type=\"text\" placeholder=\"/a/b/c\"></p><p><input type=\"radio\">get<input type=\"radio\">post</p><p>请求参数</p><textarea></textarea><p><input type=\"text\" placeholder=\"名称\"><input type=\"text\" placeholder=\"key\"><input type=\"text\" placeholder=\"value\"></p><p><input type=\"text\" placeholder=\"名称\"><input type=\"text\" placeholder=\"key\"><input type=\"text\" placeholder=\"value\"></p><p><input type=\"text\" placeholder=\"名称\"><input type=\"text\" placeholder=\"key\"><input type=\"text\" placeholder=\"value\"></p><p>响应结果</p><textarea></textarea><p>约束条件</p><p>mocha</p><p>造数据</p>"
 
 /***/ }
 /******/ ]);
