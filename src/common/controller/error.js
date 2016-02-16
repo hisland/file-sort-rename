@@ -32,7 +32,7 @@ export default class extends think.controller.base {
     }
     let file = `${module}/error/${status}.html`;
     let options = this.config('tpl');
-    options = think.extend({}, options, {type: 'base', file_depr: '_'});
+    options = think.extend({}, options, {type: 'ejs', file_depr: '_'});
     this.fetch(file, {}, options).then(content => {
       content = content.replace('ERROR_MESSAGE', message);
       this.type(options.content_type);
