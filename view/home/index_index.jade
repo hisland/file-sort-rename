@@ -4,19 +4,23 @@ html
     meta(charset="utf-8")
   body(ng-controller="show")
     .path
-      a(ng-repeat="v in path" href="?path={{v.url}}") {{v.name}} /
+      a(ng-repeat="v in path" href="?path={{v.url}}") {{v.name}}/
+
+    .btns
+      span 保存
 
     .list
       .item
         span.a 拖动
-        span.b 选择
+        span.b: input(type="checkbox")
         span.c 原名
         span.d 新名
       .item(ng-repeat="v in list")
-        span.a a
-        span.b a
-        span.c {{v}}
-        span.d def
+        span.a  
+        span.b: input(type="checkbox")
+        a.c(ng-if="v.url" href="?path={{v.url}}") {{v.name}}
+        span.c(ng-if="!v.url" ) {{v.name}}
+        span.d {{v.newName}}
 
     script.
       path = !{path};

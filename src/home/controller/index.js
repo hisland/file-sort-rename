@@ -13,7 +13,8 @@ export default class extends Base {
     if (!p) {
       p = '.';
     }
-    var p2 = path.resolve(p).split('/');
+    p = path.resolve(p);
+    var p2 = p.split('/');
     p2.shift();
     var next = '/',
       rs = [{
@@ -30,7 +31,19 @@ export default class extends Base {
     this.assign('path', JSON.stringify(rs));
 
     var list = fs.readdirSync(p);
-    console.log(list);
+    list = _.map(list, function(v){
+      var stat = fs.statSync(path.join(p, v));
+      if (stat.isDirectory()) {
+        return {
+          name: v,
+          url: path.join(p, v)
+        }
+      } else {
+        return {
+          name: v
+        }
+      }
+    });
     this.assign('list', JSON.stringify(list));
     return this.display();
   }
