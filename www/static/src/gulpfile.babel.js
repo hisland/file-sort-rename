@@ -11,17 +11,8 @@ import cfg from './webpack.config.js';
 
 var vendor_src = [
   'bower_components/jquery/dist/jquery.min.js',
-  'bower_components/jquery.cookie/jquery.cookie.js',
-  'bower_components/jquery-sortable/source/js/jquery-sortable-min.js',
   'bower_components/angular/angular.min.js',
-  'bower_components/angular-ui-router/release/angular-ui-router.min.js',
-  'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
   'bower_components/lodash/lodash.min.js',
-  'bower_components/ueditor/dist/utf8-php/ueditor.config.js',
-  'bower_components/ueditor/dist/utf8-php/ueditor.all.min.js',
-  'bower_components/angular-ueditor/dist/angular-ueditor.min.js',
-  'bower_components/angular-xeditable/dist/js/xeditable.min.js',
-  'bower_components/angular-file-upload/dist/angular-file-upload.min.js',
 ];
 
 

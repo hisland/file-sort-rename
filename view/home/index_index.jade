@@ -2,7 +2,24 @@ doctype html
 html
   head
     meta(charset="utf-8")
-  body
+  body(ng-controller="show")
+    .path
+      a(ng-repeat="v in path" href="?path={{v.url}}") {{v.name}} /
 
+    .list
+      .item
+        span.a 拖动
+        span.b 选择
+        span.c 原名
+        span.d 新名
+      .item(ng-repeat="v in list")
+        span.a a
+        span.b a
+        span.c {{v}}
+        span.d def
+
+    script.
+      path = !{path};
+      list = !{list};
     script(src="/static/dist/vendor.js")
     script(src="/static/dist/main.js")
