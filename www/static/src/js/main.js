@@ -8,6 +8,16 @@ var app = angular.module('app', [
 app.controller('show', function($scope) {
   $scope.path = path;
   $scope.list = list;
+
+  $scope.change = function(){
+    
+  }
+  $scope.sort = function(){
+    
+  }
+  $scope.save = function(){
+    
+  }
 });
 
 // init angular
