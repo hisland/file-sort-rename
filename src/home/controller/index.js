@@ -29,7 +29,10 @@ export default class extends Base {
         url: next
       })
     }
-    this.assign('path', JSON.stringify(rs));
+    this.assign('path', JSON.stringify({
+      full: p,
+      sep: rs
+    }));
 
     var list = glob.sync('*', {
       cwd: p
@@ -52,14 +55,19 @@ export default class extends Base {
   }
 
   async sortAction() {
-    var list = this.http._post;
-    for (let i of list) {
-      fs.statSync(i.path);
-      fs.renameSync(i.path, i.newpath);
+    var data = this.http._post,
+      count = 0;
+    for (let i of data.list) {
+      let op = path.join(data.path, i.name);
+      let np = path.join(data.path, i.newName);
+      if (fs.existsSync(op)) {
+        fs.renameSync(op, np);
+        count++;
+      }
     }
     return this.json({
       code: 0,
-      message: 'ok'
+      message: 'rename ' + count + ' count'
     });
   }
 }

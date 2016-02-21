@@ -5,7 +5,7 @@ var app = angular.module('app', [
   'ng-sortable',
 ]);
 
-app.controller('show', function($scope) {
+app.controller('show', function($scope, $http) {
   $scope.path = path;
   $scope.list = list;
 
@@ -54,14 +54,24 @@ app.controller('show', function($scope) {
       })
     })
   }
-  $scope.sort = function() {
-
-  }
   $scope.save = function() {
     var checked = _.filter(list, function(v) {
       return v.checked;
     });
 
+    $http
+      .post('/index/sort', {
+        path: path.full,
+        list: _.map(checked, function(v) {
+          return _.pick(v, 'name', 'newName');
+        })
+      })
+      .success(function(rs) {
+        console.log(rs);
+        if (!rs.code) {
+          location.reload();
+        }
+      });
   }
 });
 

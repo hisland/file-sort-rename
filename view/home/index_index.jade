@@ -4,7 +4,7 @@ html
     meta(charset="utf-8")
   body(ng-controller="show")
     .path
-      a(ng-repeat="v in path" href="?path={{v.url}}") {{v.name}}/
+      a(ng-repeat="v in path.sep" href="?path={{v.url}}") {{v.name}}/
 
     .btns
       span.btn(ng-click="save()") 保存
@@ -21,7 +21,7 @@ html
           span.a.move
           span.b: input(type="checkbox" ng-model="v.checked" ng-change="change()")
 
-          a.c(ng-if="v.url" href="?path={{v.url}}") {{v.name}}
+          span.c(ng-if="v.url"): a(href="?path={{v.url}}") {{v.name}}
           span.c(ng-if="!v.url" ) {{v.name}}
 
           span.d(ng-if="v.checked" ) {{v.newName}}
