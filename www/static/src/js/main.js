@@ -2,12 +2,20 @@ require('../css/main.less');
 
 // 添加各种模块依赖
 var app = angular.module('app', [
-  // 'ng-sortable',
+  'ng-sortable',
 ]);
 
 app.controller('show', function($scope) {
   $scope.path = path;
   $scope.list = list;
+
+  $scope.sortConfig = {
+    group: 'any',
+    handle: '.move',
+    onEnd: function() {
+      $scope.change();
+    }
+  }
 
   function prefix0(val, len) {
     val += '';
@@ -50,6 +58,9 @@ app.controller('show', function($scope) {
 
   }
   $scope.save = function() {
+    var checked = _.filter(list, function(v) {
+      return v.checked;
+    });
 
   }
 });

@@ -17,22 +17,43 @@ body {
 
 .btns {
   margin: 1.5em 0;
+  .btn {
+    border: 1px solid green;
+    border-radius: 3px;
+    padding: 5px;
+    &:hover {
+      background: green;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
 }
 
 .list {
-  display: table;
   .item {
-    display: table-row;
-    line-height: 1.4em;
-    span {
-      display: table-cell;
-      padding-right: 1em;
-    }
-    .a {
-      cursor: move;
-    }
+    display: flex;
+    margin-bottom: 1px;
     &:hover {
       background: #eee;
     }
+    span {
+      margin-right: 3px;
+    }
+  }
+  .a {
+    flex: 0 0 1em;
+  }
+  .move {
+    cursor: move;
+    background: green;
+  }
+  .b {
+    flex: 0 0 1em;
+  }
+  .c {
+    flex: 1 1 18em;
+  }
+  .d {
+    flex: 1 1 18em;
   }
 }
