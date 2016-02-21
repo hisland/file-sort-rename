@@ -4,6 +4,7 @@ import Base from './base.js';
 import _ from 'lodash';
 import path from 'path';
 import fs from 'fs';
+import glob from 'glob';
 import File from 'vinyl';
 import moment from 'moment';
 
@@ -30,8 +31,10 @@ export default class extends Base {
     }
     this.assign('path', JSON.stringify(rs));
 
-    var list = fs.readdirSync(p);
-    list = _.map(list, function(v){
+    var list = glob.sync('*', {
+      cwd: p
+    });
+    list = _.map(list, function(v) {
       var stat = fs.statSync(path.join(p, v));
       if (stat.isDirectory()) {
         return {
