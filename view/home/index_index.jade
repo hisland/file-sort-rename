@@ -12,18 +12,21 @@ html
     .list
       .item
         span.a 拖动
-        span.b: input(type="checkbox")
+        span.b: input(type="checkbox" ng-model="check_all" ng-change="checkAll()")
         span.c 原名
         span.d 新名
       .item(ng-repeat="v in list")
         span.a  
-        span.b: input(type="checkbox")
+        span.b: input(type="checkbox" ng-model="v.checked" ng-change="change()")
+
         a.c(ng-if="v.url" href="?path={{v.url}}") {{v.name}}
         span.c(ng-if="!v.url" ) {{v.name}}
-        span.d {{v.newName}}
+
+        span.d(ng-if="v.checked" ) {{v.newName}}
 
     script.
       path = !{path};
       list = !{list};
     script(src="/static/dist/vendor.js")
     script(src="/static/dist/main.js")
+    script(src="http://127.0.0.1:9901/webpack-dev-server.js")

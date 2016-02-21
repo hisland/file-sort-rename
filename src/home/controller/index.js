@@ -47,6 +47,7 @@ export default class extends Base {
     this.assign('list', JSON.stringify(list));
     return this.display();
   }
+
   async sortAction() {
     var list = this.http._post;
     for (let i of list) {
