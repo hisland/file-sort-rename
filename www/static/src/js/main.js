@@ -2,7 +2,7 @@ require('../css/main.less');
 
 // 添加各种模块依赖
 var app = angular.module('app', [
-  'ng-sortable',
+  'as.sortable',
 ]);
 
 app.controller('show', function($scope, $http) {

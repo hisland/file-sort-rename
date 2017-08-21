@@ -10,12 +10,12 @@ import cfg from './webpack.config.js';
 
 
 var vendor_src = [
-  'bower_components/jquery/dist/jquery.min.js',
-  'bower_components/angular/angular.min.js',
-  'bower_components/lodash/lodash.min.js',
+  'vendor/jquery.min.js',
+  'vendor/angular.min.js',
+  'vendor/lodash.min.js',
 
-  'bower_components/Sortable/Sortable.min.js',
-  'bower_components/Sortable/ng-sortable.js',
+  'vendor/Sortable.min.js',
+  'vendor/ng-sortable.js',
 ];
 
 
