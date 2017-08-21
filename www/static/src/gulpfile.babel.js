@@ -4,7 +4,7 @@ import gulp from 'gulp';
 import gutil from 'gulp-util';
 import concat from 'gulp-concat';
 import webpack from 'webpack';
-import WebpackDevServer from 'webpack-dev-server';
+// import WebpackDevServer from 'webpack-dev-server';
 
 import cfg from './webpack.config.js';
 
@@ -19,7 +19,7 @@ var vendor_src = [
 ];
 
 
-gulp.watch(vendor_src, ['vendor']);
+// gulp.watch(vendor_src, ['vendor']);
 gulp.task('default', ['vendor', 'webpack']);
 
 gulp.task('vendor', function() {
@@ -29,23 +29,23 @@ gulp.task('vendor', function() {
 });
 gulp.task('webpack', function() {
 
-  cfg.watch = true;
+  // cfg.watch = true;
   webpack(cfg, function(err, stats) {
     gutil.log("[webpack]", stats.toString({
       // output options
     }));
   });
 
-  var compiler = webpack(cfg);
-  new WebpackDevServer(compiler, {
-    inline: true
-      // server and middleware options
-  }).listen(9901, "localhost", function(err) {
-    if (err) throw new gutil.PluginError("webpack-dev-server", err);
-    // Server listening
-    // gutil.log("[webpack-dev-server]", "http://localhost:9901/webpack-dev-server/index.html");
+  // var compiler = webpack(cfg);
+  // new WebpackDevServer(compiler, {
+  //   inline: true
+  //     // server and middleware options
+  // }).listen(9901, "localhost", function(err) {
+  //   if (err) throw new gutil.PluginError("webpack-dev-server", err);
+  //   // Server listening
+  //   // gutil.log("[webpack-dev-server]", "http://localhost:9901/webpack-dev-server/index.html");
 
-    // keep the server alive or continue?
-    // callback();
-  });
+  //   // keep the server alive or continue?
+  //   // callback();
+  // });
 });

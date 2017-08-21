@@ -25,9 +25,9 @@ app.controller('show', function($scope, $http) {
     return val;
   }
 
-  function bitWidth(len) { // 10进制位宽, 0-9 1位, 10-99 2位, 100-999 3位
-    if (len < 11) {
-      return 1;
+  function bitWidth(len) { // 10进制位宽, 0-99 2位, 100-999 3位 ...
+    if (len < 101) { // 因为是从0开始计数, 需要比正常多1
+      return 2;
     }
     return Math.floor(Math.log10(len)) + 1;
   }
