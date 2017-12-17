@@ -1,14 +1,12 @@
-'use strict';
+const Base = require('./base.js');
 
-import Base from './base.js';
-import _ from 'lodash';
-import path from 'path';
-import fs from 'fs';
-import glob from 'glob';
-import File from 'vinyl';
-import moment from 'moment';
+const _ = require('lodash');
+const glob = require('glob');
 
-export default class extends Base {
+const path = require('path');
+const fs = require('fs');
+
+module.exports = class extends Base {
   async indexAction() {
     var p = this.get('path');
     if (!p) {
@@ -55,7 +53,7 @@ export default class extends Base {
   }
 
   async sortAction() {
-    var data = this.http._post,
+    var data = this.post(),
       count = 0;
     for (let i of data.list) {
       let op = path.join(data.path, i.name);
@@ -70,4 +68,4 @@ export default class extends Base {
       message: 'rename ' + count + ' count'
     });
   }
-}
+};

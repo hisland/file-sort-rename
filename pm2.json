@@ -1,7 +1,7 @@
 {
   "apps": [{
     "name": "file-sort-rename",
-    "script": "www/production.js",
+    "script": "production.js",
     "cwd": "/Users/hisland/Desktop/git-root/file-sort-rename",
     "exec_mode": "fork",
     "instances": 1,
