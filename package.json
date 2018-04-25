@@ -34,9 +34,11 @@
     "eslint-config-think": "^1.0.0"
   },
   "repository": "",
-  "license": "MIT",
   "engines": {
     "node": ">=6.0.0"
   },
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/hisland/file-sort-rename",
+  "author": "hisland <hisland@qq.com>",
+  "license": "MIT"
 }
