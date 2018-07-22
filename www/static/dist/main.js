@@ -95,8 +95,8 @@
 	    }
 	    var len = bitWidth(checked.length);
 	    _.each(checked, function(v, i) {
-	      v.newName = v.name.replace(/(^\d+\.)?(.+)/, function(m, a, b) {
-	        return prefix0(i, len) + '.' + b;
+	      v.newName = v.name.replace(/(^\d+([\.\-]))?(.+)/, function(m, a, bb, cc) {
+	        return prefix0(i, len) + (bb || '.') + cc;
 	      })
 	    })
 	  }
@@ -160,7 +160,7 @@
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(3)(undefined);
+	exports = module.exports = __webpack_require__(3)(false);
 	// imports
 
 
